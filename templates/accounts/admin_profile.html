@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+     <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:register' %}>Register</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'logger:view_daily_logs' %}">ActivityLog</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+{% if user.is_authenticated %}
+    <div class="init profile">
+<h1>{{ user.first_name }}'s Profile: Admin</h1>
+        <p class="largefont">
+    <a style="color:inherit" href="{% url 'accounts:update' %}">Update Info</a><br />
+    <a style="color:inherit" href="{% url 'accounts:logout' %}">Logout</a><br />
+    <a style="color:inherit" href="{% url 'accounts:register_employee' 0 %}">Register Doctor</a><br />
+    <a style="color:inherit" href="{% url 'accounts:register_employee' 1 %}">Register Nurse</a><br />
+    <a style="color:inherit" href="{% url 'accounts:register_employee' 2 %}">Register Admin</a><br />
+    <a style="color:inherit" href="{% url 'logger:view_daily_logs' %}">View Activity Log</a><br />
+    <a style="color:inherit" href="{% url 'communications:send_message' %}">Send Message</a><br />
+    <a style="color:inherit" href="{% url 'communications:view_messages' %}">View Messages</a><br />
+    </p>
+    </div>
+{% endif %}
+{% endblock %}

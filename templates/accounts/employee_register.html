@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li class="active"><a style="color: inherit;" href={% url 'accounts:register' %}>Register</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'logger:view_daily_logs' %}">ActivityLog</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+{% if registered %}
+    <h1>New {{ type }} was registered</h1>
+        <a style="color:inherit" href="{% url 'accounts:home' %}"><h2>Return to the homepage.</h2></a><br />
+{% else %}
+
+    <div class="init">
+        <h1>{{ type }} register here!</h1><br/>
+        <form id="user_form" method="post" action="{% url 'accounts:register_employee' employee_type %}"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {{ user_form.as_p }}
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+    </div>
+    {% endif %}
+{% endblock %}

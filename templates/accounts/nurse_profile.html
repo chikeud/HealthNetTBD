@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+        <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:search_patient' %}>View Patient Info</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'communications:view_appointments' %}">View Weekly Appointments</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="profile">
+<h1>{{ user.first_name }}'s Profile: Nurse</h1>
+    <p class="largefont">
+    <a style="color:inherit" href="{% url 'accounts:update' %}">Update Info</a><br />
+    <a style="color:inherit" href="{% url 'accounts:logout' %}">Logout</a><br />
+    <a style="color:inherit" href="{% url 'accounts:search_patient' %}">View Patient Info</a><br />
+    <a style="color:inherit" href="{% url 'communications:view_appointments' %}">View Weekly Appointments</a><br />
+    <a style="color:inherit" href="{% url 'communications:send_message' %}">Send Message</a><br />
+    <a style="color:inherit" href="{% url 'communications:view_messages' %}">View Messages</a><br />
+    </p>
+    </div>
+{% endif %}
+{% endblock %}

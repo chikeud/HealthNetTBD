@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+     <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+<body  style="background-image:url(http://img04.deviantart.net/70db/i/2010/359/b/a/hospital_by_henriksn-d35mx57.jpg); background-size: 100% 100%;
+    background-repeat: no-repeat; background-color: #8322f8;">
+
+    <div class="center" >
+<a style="color: inherit;" href="{% url 'accounts:patient_register' %}"><button>Register</button></a><br />
+        <br>
+<a style="color: inherit;" href="{% url 'accounts:login' %}"><button>Login</button></a><br />
+    </div>
+    </body>
+{% endblock %}

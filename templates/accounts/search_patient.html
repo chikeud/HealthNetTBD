@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li class="active"><a style="color: inherit;" href={% url 'accounts:search_patient' %}>View Patient Info</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'communications:view_appointments' %}">View Appointments</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+        <body>
+        <div class="init">
+    <h1>Search for Patient</h1>
+        <p>{{ error }}</p>
+    <form id="search_form" method="post" action="{% url 'accounts:search_patient' %}">
+        {% csrf_token %}
+
+        First Name: <input type="text" name="first_name" value="" size="50" />
+        <br />
+        Last Name: <input type="text" name="last_name" value="" size="50" />
+        <br />
+        <input type="submit" value="submit" />
+
+        {% for patient in results %}
+            <a href="{% url 'records:view_patient_record' patient.User.id %}">
+                <h2>{{ patient.User.first_name }} {{ patient.User.last_name }}</h2>
+            </a>
+        {% endfor %}
+
+    </form>
+        </div>
+</body>
+{% endblock %}

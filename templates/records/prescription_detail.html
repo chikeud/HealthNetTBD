@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+        <h1>{{ prescription.Patient_Record.Patient_Profile.User.first_name }} {{ prescription.Patient_Record.Patient_Profile.User.last_name }}'s Prescription</h1>
+
+        {% if type == "Doctor" %}
+            <a href="{% url 'records:edit_prescription' prescription.id %}">
+            <p>Edit</p>
+            </a>
+
+            <a href="{% url 'records:remove_prescription' prescription.id %}">
+            <p>Remove</p>
+            </a>
+        {% endif %}
+
+        <p>Doctor: {{ prescription.Doctor.User.first_name }} {{ prescription.Doctor.User.last_name }}</p>
+        <p>Drug Name: {{ prescription.Drug_Name }}</p>
+        <p>Date of issue: {{ prescription.Date_Of_Issue }}</p>
+        <p>Drug Strength: {{ prescription.Drug_Strength }}</p>
+        <p>Dosage_Form: {{ prescription.Dosage_Form }}</p>
+        <p>Quantity: {{ prescription.Quantity }}</p>
+        <p>Number of refills: {{ prescription.Number_Of_Refills }}</p>
+
+{% endblock %}

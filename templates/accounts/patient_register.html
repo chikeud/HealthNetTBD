@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+
+     <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+    <body>
+<div class="init" >
+        <h1>Patient register here!</h1><br />
+        <form id="user_form" method="post" action="{% url 'accounts:patient_register' %}"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <p>{{ user_form.as_p }}</p>
+           <p> {{ patient_form.as_p }}</p>
+           <p> {{ record_form.as_p }}</p>
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+</div>
+    </body>
+{% endblock %}

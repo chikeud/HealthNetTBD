@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'communications:view_appointments' %}>View Appointments</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li class="active"><a style="color:inherit" href="{% url 'records:view_patient_record'  user.id %}">View Record</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+    <h2>{{ record.Patient_Profile }}'s Record</h2>
+
+    {% if type == "Doctor" or type == "Nurse" %}
+        <a href="{% url 'records:update_record' record.id %}">
+            <p>Edit</p>
+        </a>
+
+
+        {% if record.Admitted == False %}
+            <a href="{% url 'records:admit_patient' record.id %}">
+                <p>Admit Patient</p>
+            </a>
+        {% elif record.Admitted == True and type == "Doctor"%}
+            <a href="{% url 'records:discharge_patient' record.id %}">
+                <p>Discharge Patient</p>
+            </a>
+        {% endif %}
+    {% endif %}
+
+    <p>Name: {{ record.Patient_Profile }}</p>
+    <p>Admited: {{ record.Admitted }}</p>
+    <p>Current Hospital: {{ record.Current_Hospital }}</p>
+    <p>Sex: {{ record.Sex }}</p>
+    <p>Weight: {{ record.Weight }}</p>
+    <p>Height: {{ record.Height_Feet }}' {{ record.Height_Inches }}" </p>
+    <p>Insurance ID: {{ record.Insurance_ID }}</p>
+
+    <h2>Prescriptions</h2>
+    {% if type == "Doctor" %}
+        <a href="{% url 'records:add_prescription' record.id %}">
+            <p>Add Prescription</p>
+        </a>
+    {% endif %}
+    {% for rx in prescriptions %}
+        <a href="{% url 'records:prescription_detail' rx.id %}">
+            <p>Drug: {{ rx.Drug_Name}}</p>
+        </a>
+    {% endfor %}
+
+    <h2>Test</h2>
+    {% if type == "Doctor" %}
+        <a href="{% url 'records:add_test' record.id %}">
+            <p>Add Test</p>
+        </a>
+    {% endif %}
+    {% for test in tests %}
+        <a href="{% url 'records:test_detail' test.id %}">
+            <p>Test: {{ test.Test_Name }}</p>
+        </a>
+    {% endfor %}
+{% endblock %}

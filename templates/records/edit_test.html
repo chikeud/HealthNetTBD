@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <form id="user_form" method="post" action="{% url 'records:edit_test' test.id %}"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ test_form.as_p }}
+
+            <input type="submit" name="submit" value="Update" />
+        </form>
+{% endblock %}

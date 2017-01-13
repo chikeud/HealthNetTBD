@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+        <strong>Create Prescription</strong><br />
+
+        <form id="user_form" method="post" action="{% url 'records:add_prescription' record.id %}"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ rx_form.as_p }}
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+{% endblock %}

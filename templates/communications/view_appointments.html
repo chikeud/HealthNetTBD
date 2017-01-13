@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block content %}
+     {% if type  == "Doctor" %}
+        <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li ><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:search_patient' %}>View Patient Info</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li class="active"><a style="color: inherit;" href="{% url 'communications:view_appointments' %}">View Appointments</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% elif type  == "Nurse" %}
+          <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:search_patient' %}>View Patient Info</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li class="active"><a style="color: inherit;" href="{% url 'communications:view_appointments' %}">View Weekly Appointments</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% elif type == "Patient" %}
+          <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li class="active"><a style="color: inherit;" href={% url 'communications:view_appointments' %}>View Appointments</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color:inherit" href="{% url 'records:view_patient_record'  user.id %}">View Record</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% else %}
+         <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li class="active"><a style="color: inherit;" href={% url 'communications:view_appointments' %}>View Appointments</a></li>
+              <li><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color:inherit" href="{% url 'records:view_patient_record'  user.id %}">View Record</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% endif %}
+
+        <h1 style="margin-top: 3px;">Appointments</h1>
+    <a href="{% url 'communications:add_appointment' %}" ><button>Add</button></a><br>
+
+<table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        {% if type == "Patient" %}
+                            <th>Doctor</th>
+                        {% elif type == "Doctor" %}
+                            <th>Patient</th>
+				        {% else %}
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                        {% endif %}
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Hospital</th>
+                    </tr>
+                </thead>
+    <tbody>
+	{% for appt in appointments %}
+            <tr data-href="{% url 'communications:edit_appointment' appt.id %}" style="cursor: pointer;">
+
+                {% if type == "Patient" %}
+                    <td>{{appt.Doctor}}</td>
+                {% elif type == "Doctor" %}
+                    <td>{{appt.Patient}}</td>
+				{% else %}
+                     <td>{{appt.Patient}}</td>
+                     <td>{{appt.Doctor}}</td>
+                {% endif %}
+                <td>{{appt.Date}}</td>
+                <td>{{ appt.Time }}</td>
+				<td>{{appt.Hospital}}</td>
+                <td>
+                    <a title = "View Appointment" href="{% url 'communications:appointment_detail' appt.id %}" class="btn btn-primary">View</a>
+                </td>
+
+                <td>
+                    <a title = "Edit Appointment" href="{% url 'communications:edit_appointment' appt.id %}" class="btn btn-info"><span class="glyphicon glyphicon-edit"></span></a>
+		        </td>
+
+                {% if type != "Nurse" %}
+                    <td>
+                        <a title = "Delete Appointment" href="{% url 'communications:delete_appointment' appt.id %}" class="btn btn-info"><span class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+                {% endif %}
+            </tr>
+        </tbody>
+    {% endfor %}
+        </table>
+{% endblock %}

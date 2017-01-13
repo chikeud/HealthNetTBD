@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <html>
+        <head>
+            <title>HealthNet</title>
+        </head>
+
+<body id="Login">
+<div class="init center">
+    <h1>Delete Appointment</h1>
+        <p>{{ error }}</p>
+    <h2>Are you sure you want to delete appointment?</h2>
+    <form id="login_form" method="post" action={% url 'communications:delete_appointment' appt_id %}>
+        {% csrf_token %}
+        <input type="submit" value="Yes" />
+    </form>
+    </div>
+</body>
+    </html>
+{% endblock %}

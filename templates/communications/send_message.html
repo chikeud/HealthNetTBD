@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block content %}
+     {% if type  == "Doctor" %}
+        <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:search_patient' %}>View Patient Info</a></li>
+              <li class="active"><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'communications:view_appointments' %}">View Appointments</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% elif type  == "Nurse" %}
+          <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li ><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:search_patient' %}>View Patient Info</a></li>
+              <li class="active"><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'communications:view_appointments' %}">View Weekly Appointments</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% elif type == "Patient" %}
+          <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li class="active"><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'communications:view_appointments' %}>View Appointments</a></li>
+              <li class="active"><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color:inherit" href="{% url 'records:view_patient_record'  user.id %}">View Record</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% else %}
+         <nav class="navbar navbar-default">
+  <div class="container-fluid">
+       <div>
+          <ul class="nav navbar-nav">
+            <li><a href="{% url 'accounts:home' %}">HealthNet</a></li>
+            <li ><a style="color: inherit;" href="{% url 'accounts:update' %}">Update Info</a></li>
+              <li><a style="color: inherit;" href={% url 'accounts:register' %}>Register</a></li>
+              <li class="active"><a style="color: inherit;" href="{% url 'accounts:message' %}">Message</a></li>
+              <li><a style="color: inherit;" href="{% url 'logger:view_daily_logs' %}">ActivityLog</a></li>
+
+          </ul>
+    </div>
+
+    <div class="collapse navbar-collapse" id="topNavBar">
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+          {% else %}
+              <li><a href="{% url 'accounts:login' %}">Login</a></li>
+          {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+     {% endif %}
+
+    <div class="init" style="width: 300px;
+        height: 100%;">
+        <h1>Send Message</h1><br />
+        <form id="user_form" method="post" action="{% url 'communications:send_message' %}"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ message_form.as_p }}
+            <input type="submit" name="submit" value="Send" />
+        </form>
+    </div>
+
+{% endblock %}

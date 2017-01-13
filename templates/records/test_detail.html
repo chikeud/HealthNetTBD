@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+        <h1>{{ test.Patient_Record.Patient_Profile.User.first_name }} {{ test.Patient_Record.Patient_Profile.User.last_name }}'s Test</h1>
+
+        {% if type == "Doctor" %}
+            <a href="{% url 'records:edit_test' test.id %}">
+            <p>Edit</p>
+            </a>
+
+            <a href="{% url 'records:remove_test' test.id %}">
+            <p>Remove</p>
+            </a>
+        {% endif %}
+
+        <h2>{{ test.Test_Name }}</h2>
+
+        {% if type == "Patient" and not test.Released%}
+            <p>Test results not yet released</p>
+        {% else %}
+            <p>Notes: {{ test.Notes }}</p>
+            <p>Doctor: {{ test.Doctor }}</p>
+            <p>Date: {{ test.Date }}</p>
+            <p>Released: {{ test.Released }}</p>
+
+            {% if test.Files %}
+            <p>Image: <img src="{{ test.Files.url }}" class="img-responsive"></p>
+            {% endif %}
+        {% endif %}
+{% endblock %}
