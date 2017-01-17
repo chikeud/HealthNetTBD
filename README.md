@@ -3,14 +3,16 @@ This is a Hospital management software designed and currently being worked on by
 
 
 
-In order to run it make sure you have a python version higher 3.4.3 installed and django installed as well.
+In order to run it make sure you have a python version higher 2.7 installed and django installed as well.
 cd into wherever you have the HealthNetTBD saved.
 type in the following command in your terminal or command prompt :
-python manage.py makemigrations
-after which you'll type:
-python manage.py runserver
-This would provide a local IP address where you can preview the web application on your web browser
+
+"python manage.py runserver"
+
+This would provide a local IP address(http://127.0....). Copy this IP address and put into your browser. add "/accounts" in the browser text box and press enter. You should be at the HomePage of HealthNet Application. 
 
 
 Hope this helps.
-Bless up
+Bless up 🔑
+
+P.S: Feel free to comment if any bugs or anomalies are observed. Thank You 🙏🏾
